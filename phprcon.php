@@ -29,6 +29,8 @@
 // 2020 by ayy lmao
 //	  improved speed by a lot
 //	  fixed every single function so that they actually work
+// 2022 by bariscodefx
+//        fixed every function's $result variable
 
 class Rcon
 {
@@ -119,7 +121,7 @@ class Rcon
                                 }
                                 //get server information on netinfo
                                 $serverinfo         = explode("\x5c", substr(substr(trim($buffer), 14), 8));
-				$result       = "";
+				$result       = [];
 
 				switch($serverinfo['2']) {
 
@@ -173,6 +175,8 @@ class Rcon
                                 $line  = explode("\n", $maps);
                                 $count = sizeof($line) - 4;
 
+                                $result = [];
+
                                 //format maps
                                 for ($i = 0; $i <= $count; $i++) {
 					$text = $line[$i];
@@ -199,7 +203,7 @@ class Rcon
                                                 return false;
                                 }
                                 //build info array
-				$result			 = "";
+				$result			 = [];
                                 $pos                     = 0;
                                 $result["type"]          = $this->parse_buffer($buffer, $pos, "bytestr");
                                 $result["version"]       = $this->parse_buffer($buffer, $pos, "byte");
@@ -276,7 +280,7 @@ class Rcon
                                 }
 				$maxplayers = $serverinfo['activeplayers'];
 				$players = array_chunk(explode("\x5c", trim(substr($buffer, 14))), 4);
-
+                                $result = [];
                                for ($i = 0; $i < $maxplayers; $i++) {
                                                 $result[$i]["index"] = $players[$i][3];
                                                 $result[$i]["name"]  = $players[$i][0];
